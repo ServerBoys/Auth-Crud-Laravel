@@ -10,27 +10,40 @@ class BlogPostController extends Controller
 {
     public function index()
     {
-
-        $blogs = BlogPost::all();
-        return response()->json($blogs);
+        if (auth()->user()) {
+            $blogs = BlogPost::all();
+            return response()->json($blogs);
+        } else {
+            return response()->json(['errors' => 'Unauthorized',
+                'status' => true
+            ], 401);
+        }
     }
 
     public function store(BlogPostRequest $request)
     {
 
         $blog = BlogPost::create($request->getBlogPostDetails());
-        return response()->json(['blog'=>$blog]);
+        return response()->json(['blog' => $blog]);
     }
 
-    public function show(BlogPost $blog) {
-        return response()->json(['blog'=>$blog]);
+    public function show(BlogPost $blog)
+    {
+        if (auth()->user()) {
+            return response()->json(['blog' => $blog]);
+        } else {
+            return response()->json(['errors' => 'Unauthorized',
+                'status' => true
+            ], 401);
+        }
     }
 
     public function update(BlogPostRequest $request, BlogPost $blog)
     {
         $blog->update($request->getBlogPostDetails());
-        return response()->json(['blog'=>$blog]);
+        return response()->json(['blog' => $blog]);
     }
+
     public function destroy(BlogPost $blog)
     {
 
@@ -38,10 +51,9 @@ class BlogPostController extends Controller
         if ($user->hasPermissionTo('delete-blog-posts') && $user === $blog->user()) {
             $blog->delete();
 
-            return response()->json(['blog'=>$blog]);
-        }
-        else {
-            return response()->json(['error'=>"Unauthorized"], 401);
+            return response()->json(['blog' => $blog]);
+        } else {
+            return response()->json(['error' => "Unauthorized"], 401);
         }
     }
 }
