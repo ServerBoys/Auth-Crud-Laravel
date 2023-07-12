@@ -5,6 +5,7 @@ namespace App\Http\Requests\Api;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class RegisterRequest extends ApiRequest
 {
@@ -27,7 +28,7 @@ class RegisterRequest extends ApiRequest
             'email' => 'required|email:rfc,dns|unique:users,email',
             'username' => 'required|unique:users,username',
             'password' => 'required|min:8',
-            'password_confirmation' => 'required|same:password'
+            'role'=>['required', 'string', Rule::in(['Editor', 'Visitor'])],
         ];
     }
 }

@@ -10,26 +10,33 @@ class RoleAndPermissionSeeder extends Seeder
 {
     public function run(): void
     {
-        Permission::create(['name' => 'create-users']);
-        Permission::create(['name' => 'edit-users']);
-        Permission::create(['name' => 'delete-users']);
 
         Permission::create(['name' => 'create-blog-posts']);
         Permission::create(['name' => 'edit-blog-posts']);
         Permission::create(['name' => 'delete-blog-posts']);
 
-        Permission::create(['name' => 'comment-blog-posts']);
-
         $editorRole = Role::create(['name' => 'Editor']);
         $visitorRole = Role::create(['name' => "Visitor"]);
+
 
         $editorRole->givePermissionTo([
             'create-blog-posts',
             'edit-blog-posts',
             'delete-blog-posts',
         ]);
-        $visitorRole->givePermissionTo([
-            'comment-blog-posts'
+
+        Permission::create(['guard_name' => 'api', 'name' => 'create-blog-posts']);
+        Permission::create(['guard_name' => 'api', 'name' => 'edit-blog-posts']);
+        Permission::create(['guard_name' => 'api', 'name' => 'delete-blog-posts']);
+
+        $editorApiRole = Role::create(['guard_name' => 'api', 'name' => 'ApiEditor']);
+        $visitorApiRole = Role::create(['guard_name' => 'api', 'name' => "ApiVisitor"]);
+
+
+        $editorApiRole->givePermissionTo([
+            'create-blog-posts',
+            'edit-blog-posts',
+            'delete-blog-posts',
         ]);
     }
 }

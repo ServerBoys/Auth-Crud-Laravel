@@ -4,9 +4,6 @@ namespace App\Http\Requests\Api;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 class LoginRequest extends ApiRequest
 {
@@ -35,12 +32,12 @@ class LoginRequest extends ApiRequest
      */
     public function getCredentials(): array
     {
-        $username = $this->get('username');
+        $username = $this->post('username');
 
         if ($this->isEmail($username))
             return [
                 'email' => $username,
-                'password' => $this->get('password')
+                'password' => $this->post('password')
             ];
         return $this->only('username', 'password');
     }

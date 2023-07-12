@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Web;
+namespace App\Http\Requests\Api;
 
 use Illuminate\Contracts\Validation\ValidationRule;
-use Illuminate\Foundation\Http\FormRequest;
 
-class BlogPostRequest extends FormRequest
+
+class BlogPostRequest extends ApiRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,8 +23,8 @@ class BlogPostRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title'=>'required',
-            'body'=>'required',
+            'title' => 'required',
+            'body' => 'required',
         ];
     }
 
@@ -34,8 +34,5 @@ class BlogPostRequest extends FormRequest
         $blogPost['user_id'] = auth()->user()['id'];
         return $blogPost;
     }
-    public function failedAuthorization()
-    {
-        return redirect()->route('blog.index')->withErrors(['You are not authorized']);
-    }
+
 }

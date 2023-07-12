@@ -40,7 +40,7 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
          * Logout Routes
          */
         Route::get('/logout', 'Web\LogoutController@perform')->name('logout.perform');
+
+        Route::resource('blog', \App\Http\Controllers\Web\BlogPostController::class);
     });
 });
-Route::resource('blog', \App\Http\Controllers\Web\BlogPostController::class);
-//Route::resource('api', \App\Http\Controllers\Api\BlogPostController::class);

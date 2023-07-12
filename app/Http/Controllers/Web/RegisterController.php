@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Web\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Spatie\Permission\Models\Role;
 
 class RegisterController extends Controller
 {
@@ -24,7 +25,11 @@ class RegisterController extends Controller
     public function register(RegisterRequest $request)
     {
         $user = User::create($request->validated());
-        $user->assignRole('Editor');
+
+        $user->assignRole($request->role);
+
+        $role = Role::findByName('Api'.$request->role, 'api');
+        $user->assignRole($role);
 
         auth()->login($user);
 

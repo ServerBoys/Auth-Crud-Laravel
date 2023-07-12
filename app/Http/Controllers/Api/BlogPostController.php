@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Web\BlogPostRequest;
+use App\Http\Requests\Api\BlogPostRequest;
 use App\Models\BlogPost;
 
 class BlogPostController extends Controller
@@ -11,26 +11,37 @@ class BlogPostController extends Controller
     public function index()
     {
 
-        $blogs = BlogPost::orderBy('id','desc')->paginate(5);
-        return view('blog.index', compact('blogs'));
+        $blogs = BlogPost::all();
+        return response()->json($blogs);
     }
 
     public function store(BlogPostRequest $request)
     {
 
         $blog = BlogPost::create($request->getBlogPostDetails());
+        return response()->json(['blog'=>$blog]);
+    }
 
-        return redirect()->route('blog.edit', $blog->id)->with('success','Blog has been created');
+    public function show(BlogPost $blog) {
+        return response()->json(['blog'=>$blog]);
     }
 
     public function update(BlogPostRequest $request, BlogPost $blog)
     {
         $blog->update($request->getBlogPostDetails());
-        return redirect()->route('blog.edit',$blog->id)->with('success','Blog has been updated');
+        return response()->json(['blog'=>$blog]);
     }
     public function destroy(BlogPost $blog)
     {
-        $blog->delete();
-        return redirect()->route('blog.index')->with('success','Blog has been deleted successfully');
+
+        $user = auth()->user();
+        if ($user->hasPermissionTo('delete-blog-posts') && $user === $blog->user()) {
+            $blog->delete();
+
+            return response()->json(['blog'=>$blog]);
+        }
+        else {
+            return response()->json(['error'=>"Unauthorized"], 401);
+        }
     }
 }

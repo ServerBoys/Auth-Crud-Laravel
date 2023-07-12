@@ -44,6 +44,18 @@
             @endif
         </div>
 
+
+        <div class="form-group form-floating mb-3">
+            <label for="role">Role: </label>
+            <select name="role" class="form-control" id="role">
+                <option value="Visitor">Visitor</option>
+                <option value="Editor">Editor</option>
+            </select>
+            @if ($errors->has('role'))
+                <span class="text-danger text-left">{{ $errors->first('role') }}</span>
+            @endif
+        </div>
+
         <button class="w-100 btn btn-lg btn-primary" type="submit">Register</button>
 
         @include('auth.partials.copy')
