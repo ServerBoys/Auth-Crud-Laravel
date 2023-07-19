@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class PaymentAuth extends Controller
 {
     public string $merchant_id = "EPAYTEST";
-    public string $order_id = "premiuio";
+    public string $order_id = "qwrei2034_23429ioadsf_401adfs";
     static string $success_code = "<response>\\n<response_code>\\nSuccess\\n<\\/response_code>\n<\\/response>";
     static string $failure_code = "<response>\\n<response_code>\\nfailure\\n<\\/response_code>\n<\\/response>";
     public function pay() {
