@@ -51,4 +51,8 @@ class User extends Authenticatable
     {
         $this->attributes['password'] = bcrypt($value);
     }
+
+    public function premium_subscription() {
+        return $this->hasOne(PremiumSubscription::class);
+    }
 }

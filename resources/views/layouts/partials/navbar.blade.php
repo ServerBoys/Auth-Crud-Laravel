@@ -19,6 +19,13 @@
             <div>
                 @auth
                     <div class="m-2 d-inline">{{auth()->user()->username. ' '.auth()->user()->getRoleNames()}}</div>
+                    <div class="m-2 inline">
+                        @if(auth()->user()->premium_subscription !== null)
+                            Member
+                        @else
+                            <a class="btn btn-outline-primary" href="{{ route('pay') }}">Buy (Rs. 1130)</a>
+                        @endif
+                    </div>
                     <div class="text-end d-inline">
                         <a href="{{ route('logout.perform') }}" class="btn btn-outline-light me-2">Logout</a>
                     </div>

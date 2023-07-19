@@ -8,6 +8,7 @@ class HomeController extends Controller
 {
     public function index()
     {
+//        return response()->json([auth()->user()->premium_subscription === null]);
         return view('home.index');
     }
 }

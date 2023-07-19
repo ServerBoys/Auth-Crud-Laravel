@@ -42,5 +42,9 @@ Route::group(['namespace' => 'App\Http\Controllers'], function()
         Route::get('/logout', 'Web\LogoutController@perform')->name('logout.perform');
 
         Route::resource('blog', \App\Http\Controllers\Web\BlogPostController::class);
+
+        Route::get('/pay', 'Web\PaymentAuth@pay')->name('pay');
+        Route::get('/pay/check', 'Web\PaymentAuth@pay_check')->name('pay.check');
+        Route::get('/pay/declined', 'Web\PaymentAuth@pay_declined')->name('pay.declined');
     });
 });
